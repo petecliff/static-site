@@ -20,31 +20,13 @@ stages:
             displayName: 'Run Jekyll'
             inputs:
               command: run
-              arguments: -v $(build.sourcesDirectory):/srv/jekyll -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache -v $(build.binariesDirectory):/srv/srv/jekyll/_site ${{variables.builderImage}} jekyll build --future
-
-
-
-
-
-          #     containerRegistryType: 'Container Registry'
-          #     action: 'Run an image'
-          #     imageName: 'jekyll/builder:latest'
-          #     arguments:
-          #       - BUILD_INFO="$(Build.DefinitionName) $(Build.BuildId) $(Build.BuildNumber) - $(Build.SourceBranchName)"
-          #     volumes: |
-          #       $(build.sourcesDirectory):/srv/jekyll
-          #       $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache
-          #       $(build.binariesDirectory):/srv/jekyll/_site
-          #     containerCommand: 'jekyll build --future'
-          #     detached: false
-
-          # - task: CopyFiles@2
-          #   displayName: 'copy _site'
-          #   inputs:
-          #     SourceFolder: '_site'
-          #     TargetFolder: '$(Build.binariesDirectory)'
-          
-          # - task: PublishBuildArtifacts@1
-          #   inputs:
-          #     PathtoPublish: '$(Build.binariesDirectory)'
-          #     ArtifactName: site
+              arguments: -v $(build.sourcesDirectory):/srv/jekyll:rw -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache:rw -v $(build.binariesDirectory):/srv/srv/jekyll/_site:rw ${{variables.builderImage}} jekyll build --future
+          - task: CopyFiles@2
+            displayName: 'copy _site'
+            inputs:
+              SourceFolder: '_site'
+              TargetFolder: '$(Build.binariesDirectory)'         
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.binariesDirectory)'
+              ArtifactName: site
