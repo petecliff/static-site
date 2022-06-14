@@ -18,8 +18,9 @@ steps:
       imageName: 'jekyll/builder:latest'
       volumes: |
         $(build.sourcesDirectory):/srv/jekyll
+        $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache
         $(build.binariesDirectory):/srv/jekyll/_site
-      containerCommand: 'mkdir .jekyll-cache; jekyll build --future'
+      containerCommand: 'jekyll build --future'
       detached: false
 
   - task: CopyFiles@2
