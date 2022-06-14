@@ -7,6 +7,8 @@ variables:
 stages:
   - stage: 'Build'
     displayName: 'Build the site'
+    variables:
+      BUILD_INFO: '$(Build.DefinitionName) $(Build.BuildId) $(Build.BuildNumber) - $(Build.SourceBranchName)'
     jobs:
       - job: 'Build'
         displayName: 'Build job'
@@ -17,6 +19,7 @@ stages:
             displayName: 'Run Jekyll'
             inputs:
               command: build
+              arguments: -v /srv/jekyll:$(build.sourcesDirectory) -v /srv/jekyll/.jekyll-cache:$(build.sourcesDirectory)/.jekyll-cache -v /srv//srv/jekyll/_site:$(build.binariesDirectory)
 
 
 
