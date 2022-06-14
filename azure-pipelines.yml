@@ -10,27 +10,25 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-  - task: UseRubyVersion@0
+  - task: Docker@0
+    displayName: 'Run Jekyll'
     inputs:
-      versionSpec: '>=2.5'
-
-  - script: |
-      gem install bundler jekyll
-      bundle install
-    displayName: 'bundle install'
-
-  - script: |
-      bundle install
-      jekyll build
-    displayName: 'run jekyll'
+      containerRegistryType: 'Container Registry'
+      action: 'Run an image'
+      imageName: 'jekyll/builder:latest'
+      volumes: |
+        $(build.sourcesDirectory):/srv/jekyll
+        $(build.binariesDirectory):/srv/jekyll/_site
+      containerCommand: 'jekyll build --future'
+      detached: false
 
   - task: CopyFiles@2
     displayName: 'copy _site'
     inputs:
-      SourceFolder: '_site'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      SourceFolder: ''
+      TargetFolder: '$(Build.binariesDirectory)'
   
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: '$(Build.binariesDirectory)'
       ArtifactName: site
