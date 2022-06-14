@@ -26,7 +26,7 @@ steps:
   - task: CopyFiles@2
     displayName: 'copy _site'
     inputs:
-      SourceFolder: ''
+      SourceFolder: '_site'
       TargetFolder: '$(Build.binariesDirectory)'
   
   - task: PublishBuildArtifacts@1
