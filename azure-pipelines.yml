@@ -18,7 +18,7 @@ stages:
           - task: Docker@2
             displayName: 'Run Jekyll'
             inputs:
-              command: build
+              command: run
               arguments: "-v $(build.sourcesDirectory):/srv/jekyll -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache -v $(build.binariesDirectory):/srv/srv/jekyll/_site"
 
 
