@@ -20,7 +20,7 @@ stages:
             displayName: 'Run Jekyll'
             inputs:
               command: run
-              arguments: -v $(build.sourcesDirectory):/srv/jekyll:rw -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache:rw -v $(build.binariesDirectory):/srv/srv/jekyll/_site:rw ${{variables.builderImage}} jekyll build --future
+              arguments: -v $(build.sourcesDirectory):/srv/jekyll:rw -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache:rw -v $(build.binariesDirectory):/srv/jekyll/_site:rw ${{variables.builderImage}} jekyll build --future
           - task: CopyFiles@2
             displayName: 'copy _site'
             inputs:
