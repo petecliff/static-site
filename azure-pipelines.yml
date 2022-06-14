@@ -19,7 +19,7 @@ stages:
             displayName: 'Run Jekyll'
             inputs:
               command: run
-              arguments: "-v $(build.sourcesDirectory):/srv/jekyll -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache -v $(build.binariesDirectory):/srv/srv/jekyll/_site"
+              arguments: -v $(build.sourcesDirectory):/srv/jekyll -v $(build.sourcesDirectory)/.jekyll-cache:/srv/jekyll/.jekyll-cache -v $(build.binariesDirectory):/srv/srv/jekyll/_site
 
 
 
