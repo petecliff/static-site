@@ -15,6 +15,7 @@ stages:
         steps:
           - task: Docker@2
             displayName: 'Run Jekyll'
+            command: build
 
 
 
