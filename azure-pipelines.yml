@@ -46,6 +46,7 @@ stages:
       - deployment: 'Deploy'
         pool:
           vmImage: ubuntu-latest
+        environment: dev
         variables:
         - group: Deployment
         strategy:
