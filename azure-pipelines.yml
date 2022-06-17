@@ -4,7 +4,7 @@ trigger:
 variables:
   releaseBranchName: 'main'
   builderImage: 'jekyll/builder:latest'
-  azureServiceConnectionName: 'Dev Subscription'
+  azureServiceConnectionName: 'Dev Subscription (e58a1fd6-05ea-4fac-9e3d-e0d75f25519c)'
 
 stages:
   - stage: 'Build'
