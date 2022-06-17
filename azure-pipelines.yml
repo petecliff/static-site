@@ -27,6 +27,32 @@ stages:
               SourceFolder: '_site'
               TargetFolder: '$(Build.binariesDirectory)'         
           - task: PublishBuildArtifacts@1
+            displayName: 'Publish to dev'
             inputs:
               PathtoPublish: '$(Build.binariesDirectory)'
               ArtifactName: site
+
+  - stage: 'Dev'
+    dependsOn: Build
+    condition: |
+      and
+      (
+        succeeded(),
+        eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+      )
+    displayName: 'Deploy to dev'
+    jobs:
+      - job: 'DeployDev'
+        displayName: 'Deploy job for dev'
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: "az storage blob upload-batch -d '$web' -s $(Pipeline.Workspace)/site/* --account-name $(variables['staticSiteStorageAccountName']) --account-key $(variables['staticSiteStorageAccountKey'])"
+
+
+     
