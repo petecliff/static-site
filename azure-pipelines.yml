@@ -55,6 +55,6 @@ stages:
               azureSubscription: 'Dev Subscription (e58a1fd6-05ea-4fac-9e3d-e0d75f25519c)'
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: "az storage blob upload-batch -d '$web' -s $(Pipeline.Workspace)/site/* --account-name $(staticSiteStorageAccountName) --account-key $(staticSiteStorageAccountKey)"
+              inlineScript: "az storage blob upload-batch -d '$web' -s $(Pipeline.Workspace)/site --account-name $(staticSiteStorageAccountName) --account-key $(staticSiteStorageAccountKey)"
 
      
