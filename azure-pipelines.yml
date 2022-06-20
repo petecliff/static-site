@@ -33,6 +33,36 @@ stages:
               PathtoPublish: '$(Build.binariesDirectory)'
               ArtifactName: site
 
+  - stage: 'Dev'
+    dependsOn: Build
+    condition: |
+      and
+      (
+        succeeded(),
+        eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+      )
+    displayName: 'Deploy to dev'
+    jobs:
+      - deployment: 'Deploy'
+        pool:
+          vmImage: ubuntu-latest
+        environment: dev
+        variables:
+        - group: Deployment
+        strategy:
+          runOnce:
+            deploy: 
+              steps:
+                - download: current
+                  artifact: site
+                - task: AzureCLI@2
+                  displayName: "Copy to storage account"
+                  inputs:
+                    azureSubscription: 'Dev Subscription (e58a1fd6-05ea-4fac-9e3d-e0d75f25519c)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: az storage blob upload-batch -d \$web -s $(Pipeline.Workspace)/site/ --account-name $(staticSiteStorageAccountName) --account-key $(staticSiteStorageAccountKey) --overwrite true              
+
   - stage: 'Test'
     dependsOn: Build
     condition: |
